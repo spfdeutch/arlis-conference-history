@@ -51,12 +51,12 @@
   <div class="legend">
     <div class="leg"><div class="leg-sq" style="background:#0F6E56"></div>Conference attendance</div>
     <div class="leg"><div class="leg-sq" style="background:#534AB7"></div>Membership</div>
-    <div class="leg"><div class="leg-circle" style="border-color:#D85A30;background:transparent"></div>Estimated / as of April 18, 2026</div>
+    <div class="leg"><div class="leg-circle" style="border-color:#D85A30;background:transparent"></div>Averaged from EB reports / projected</div>
   </div>
   <div style="position:relative;width:100%;height:380px">
-    <canvas id="chart-history" role="img" aria-label="Line chart showing ARLIS/NA conference attendance and membership from 1972 to 2026"></canvas>
+    <canvas id="chart-history" role="img" aria-label="Line chart showing ARLIS/NA conference attendance and membership from 1972 to 2026. Attendance figures for 1976–1978, 1981, 1999–2001, and 2004–2005 are averaged from Executive Board reports. 2020 was cancelled. 2021 and 2025 were virtual. 2026 figure is registration as of April 18."></canvas>
   </div>
-  <p class="chart-note">Open circles = estimated figures or as of April 18, 2026 · 1999–2001 &amp; 2004–2005 attendance carried forward · 1976–1978 &amp; 1981 attendance estimated</p>
+  <p class="chart-note">Open circles = averaged or projected figures · 1976–1978, 1981 &amp; 1999–2001, 2004–2005 attendance averaged from EB reports · 2020 cancelled · 2021 virtual · 2025 virtual, year-to-date · 2026 registration as of April 18, 2026</p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -115,7 +115,7 @@ const data = [
   { year: 2022, city: 'Chicago', attendance: 396, members: 980,  estAtt: false, estMem: false, proj: false },
   { year: 2023, city: 'Mexico City', attendance: 509, members: 872,  estAtt: false, estMem: false, proj: false },
   { year: 2024, city: 'Pittsburgh', attendance: 481, members: 799,  estAtt: false, estMem: false, proj: false },
-  { year: 2025, city: 'Virtual (YTD)', attendance: 566, members: 801,  estAtt: false, estMem: false, proj: false },
+  { year: 2025, city: 'Virtual (YTD)', attendance: 566, members: 801,  estAtt: true,  estMem: false, proj: false },
   { year: 2026, city: 'Montreal', attendance: 445, members: 790,  estAtt: false, estMem: false, proj: true  },
 ];
 
@@ -175,7 +175,7 @@ new Chart(document.getElementById('chart-history'), {
             const i = ctx.dataIndex;
             const d = data[i];
             if (ctx.datasetIndex === 0) {
-              const flag = d.proj ? ' (as of April 18, 2026)' : d.estAtt ? ' (estimated)' : '';
+              const flag = d.proj ? ' (as of April 18, 2026)' : d.estAtt && d.year === 2025 ? ' (year-to-date)' : d.estAtt ? ' (averaged from EB reports)' : '';
               return ' Attendance: ' + ctx.parsed.y + flag;
             } else {
               const flag = d.proj ? ' (as of April 18, 2026)' : '';
