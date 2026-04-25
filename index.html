@@ -1,0 +1,218 @@
+
+<h2 class="sr-only">ARLIS/NA 54-year conference history showing annual attendance and membership from 1972 to 2026</h2>
+<style>
+*{box-sizing:border-box}
+.wrap{padding:1rem 0}
+.metric-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:1.5rem}
+.metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px}
+.metric-label{font-size:11px;color:var(--color-text-secondary);margin:0 0 4px}
+.metric-value{font-size:20px;font-weight:500;color:var(--color-text-primary);margin:0}
+.metric-sub{font-size:11px;color:var(--color-text-tertiary);margin:2px 0 0}
+.metric.green .metric-value{color:#0F6E56}
+.metric.amber .metric-value{color:#854F0B}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-bottom:10px;font-size:11px;color:var(--color-text-secondary)}
+.leg{display:flex;align-items:center;gap:5px}
+.leg-sq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.leg-circle{width:10px;height:10px;border-radius:50%;border:2px solid;flex-shrink:0}
+.section-title{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px}
+.chart-note{font-size:11px;color:var(--color-text-tertiary);text-align:center;margin-top:8px;font-style:italic}
+</style>
+
+<div class="wrap">
+  <div class="metric-row">
+    <div class="metric">
+      <p class="metric-label">First conference (1972)</p>
+      <p class="metric-value">10</p>
+      <p class="metric-sub">attendees, Chicago</p>
+    </div>
+    <div class="metric green">
+      <p class="metric-label">Peak attendance</p>
+      <p class="metric-value">908</p>
+      <p class="metric-sub">2018, New York City</p>
+    </div>
+    <div class="metric green">
+      <p class="metric-label">Peak membership</p>
+      <p class="metric-value">1,391</p>
+      <p class="metric-sub">1993, San Francisco</p>
+    </div>
+    <div class="metric amber">
+      <p class="metric-label">Current membership</p>
+      <p class="metric-value">790</p>
+      <p class="metric-sub">as of today</p>
+    </div>
+    <div class="metric">
+      <p class="metric-label">2026 Montreal</p>
+      <p class="metric-value">445</p>
+      <p class="metric-sub">registered as of Apr 18</p>
+    </div>
+  </div>
+
+  <p class="section-title">Conference attendance &amp; membership — 1972 to 2026</p>
+  <div class="legend">
+    <div class="leg"><div class="leg-sq" style="background:#0F6E56"></div>Conference attendance</div>
+    <div class="leg"><div class="leg-sq" style="background:#534AB7"></div>Membership</div>
+    <div class="leg"><div class="leg-circle" style="border-color:#D85A30;background:transparent"></div>Estimated / as of April 18, 2026</div>
+  </div>
+  <div style="position:relative;width:100%;height:380px">
+    <canvas id="chart-history" role="img" aria-label="Line chart showing ARLIS/NA conference attendance and membership from 1972 to 2026"></canvas>
+  </div>
+  <p class="chart-note">Open circles = estimated figures or as of April 18, 2026 · 1999–2001 &amp; 2004–2005 attendance carried forward · 1976–1978 &amp; 1981 attendance estimated</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const data = [
+  { year: 1972, city: 'Chicago', attendance: 10,  members: 10,   estAtt: false, estMem: false, proj: false },
+  { year: 1973, city: 'New York City', attendance: 80,  members: 284,  estAtt: false, estMem: false, proj: false },
+  { year: 1974, city: 'Detroit', attendance: 185, members: 650,  estAtt: false, estMem: false, proj: false },
+  { year: 1975, city: 'Washington, DC', attendance: 277, members: 900,  estAtt: false, estMem: false, proj: false },
+  { year: 1976, city: 'Chicago', attendance: 192, members: 900,  estAtt: true,  estMem: false, proj: false },
+  { year: 1977, city: 'Los Angeles', attendance: 240, members: 950,  estAtt: true,  estMem: false, proj: false },
+  { year: 1978, city: 'New York City', attendance: 341, members: 1000, estAtt: true,  estMem: false, proj: false },
+  { year: 1979, city: 'Toronto', attendance: 270, members: 1000, estAtt: false, estMem: false, proj: false },
+  { year: 1980, city: 'New Orleans', attendance: 234, members: 1051, estAtt: false, estMem: false, proj: false },
+  { year: 1981, city: 'San Francisco', attendance: 300, members: 1071, estAtt: true,  estMem: false, proj: false },
+  { year: 1982, city: 'Boston', attendance: 382, members: 1096, estAtt: false, estMem: false, proj: false },
+  { year: 1983, city: 'Philadelphia', attendance: 386, members: 1166, estAtt: false, estMem: false, proj: false },
+  { year: 1984, city: 'Cleveland', attendance: 320, members: 1197, estAtt: false, estMem: false, proj: false },
+  { year: 1985, city: 'Los Angeles', attendance: 377, members: 1261, estAtt: false, estMem: false, proj: false },
+  { year: 1986, city: 'New York City', attendance: 535, members: 1228, estAtt: false, estMem: false, proj: false },
+  { year: 1987, city: 'Washington DC', attendance: 427, members: 1276, estAtt: false, estMem: false, proj: false },
+  { year: 1988, city: 'Dallas', attendance: 450, members: 1308, estAtt: false, estMem: false, proj: false },
+  { year: 1989, city: 'Phoenix', attendance: 424, members: 1308, estAtt: false, estMem: false, proj: false },
+  { year: 1990, city: 'New York City', attendance: 620, members: 1339, estAtt: false, estMem: false, proj: false },
+  { year: 1991, city: 'Kansas City', attendance: 350, members: 1329, estAtt: false, estMem: false, proj: false },
+  { year: 1992, city: 'Chicago', attendance: 450, members: 1368, estAtt: false, estMem: false, proj: false },
+  { year: 1993, city: 'San Francisco', attendance: 500, members: 1391, estAtt: false, estMem: false, proj: false },
+  { year: 1994, city: 'Providence, RI', attendance: 500, members: 962,  estAtt: false, estMem: false, proj: false },
+  { year: 1995, city: 'Montreal', attendance: 588, members: 1025, estAtt: false, estMem: false, proj: false },
+  { year: 1996, city: 'Miami', attendance: 806, members: 1179, estAtt: false, estMem: false, proj: false },
+  { year: 1997, city: 'San Antonio', attendance: 386, members: 1131, estAtt: false, estMem: false, proj: false },
+  { year: 1998, city: 'Philadelphia', attendance: 480, members: 1139, estAtt: false, estMem: false, proj: false },
+  { year: 1999, city: 'Vancouver', attendance: 480, members: 1047, estAtt: true,  estMem: false, proj: false },
+  { year: 2000, city: 'Pittsburgh', attendance: 480, members: 1105, estAtt: true,  estMem: false, proj: false },
+  { year: 2001, city: 'Los Angeles', attendance: 480, members: 1098, estAtt: true,  estMem: false, proj: false },
+  { year: 2002, city: 'St. Louis', attendance: 580, members: 1099, estAtt: false, estMem: false, proj: false },
+  { year: 2003, city: 'Baltimore', attendance: 515, members: 1049, estAtt: false, estMem: false, proj: false },
+  { year: 2004, city: 'New York City', attendance: 515, members: 889,  estAtt: true,  estMem: false, proj: false },
+  { year: 2005, city: 'Houston', attendance: 515, members: 889,  estAtt: true,  estMem: false, proj: false },
+  { year: 2006, city: 'Banff', attendance: 793, members: 1029, estAtt: false, estMem: false, proj: false },
+  { year: 2007, city: 'Atlanta', attendance: 501, members: 1111, estAtt: false, estMem: false, proj: false },
+  { year: 2008, city: 'Denver', attendance: 814, members: 1288, estAtt: false, estMem: false, proj: false },
+  { year: 2009, city: 'Indianapolis', attendance: 500, members: 1122, estAtt: false, estMem: false, proj: false },
+  { year: 2010, city: 'Boston', attendance: 596, members: 1189, estAtt: false, estMem: false, proj: false },
+  { year: 2011, city: 'Minneapolis', attendance: 549, members: 824,  estAtt: false, estMem: false, proj: false },
+  { year: 2012, city: 'Toronto', attendance: 554, members: 777,  estAtt: false, estMem: false, proj: false },
+  { year: 2013, city: 'Pasadena', attendance: 581, members: 788,  estAtt: false, estMem: false, proj: false },
+  { year: 2014, city: 'Washington DC', attendance: 807, members: 999,  estAtt: false, estMem: false, proj: false },
+  { year: 2015, city: 'Fort Worth', attendance: 501, members: 1111, estAtt: false, estMem: false, proj: false },
+  { year: 2016, city: 'Seattle', attendance: 838, members: 1266, estAtt: false, estMem: false, proj: false },
+  { year: 2017, city: 'New Orleans', attendance: 549, members: 1122, estAtt: false, estMem: false, proj: false },
+  { year: 2018, city: 'New York City', attendance: 908, members: 1189, estAtt: false, estMem: false, proj: false },
+  { year: 2019, city: 'Salt Lake City', attendance: 455, members: 824,  estAtt: false, estMem: false, proj: false },
+  { year: 2020, city: 'Cancelled (St. Louis)', attendance: 0,   members: 934,  estAtt: false, estMem: false, proj: false },
+  { year: 2021, city: 'Virtual', attendance: 493, members: 827,  estAtt: false, estMem: false, proj: false },
+  { year: 2022, city: 'Chicago', attendance: 396, members: 980,  estAtt: false, estMem: false, proj: false },
+  { year: 2023, city: 'Mexico City', attendance: 509, members: 872,  estAtt: false, estMem: false, proj: false },
+  { year: 2024, city: 'Pittsburgh', attendance: 481, members: 799,  estAtt: false, estMem: false, proj: false },
+  { year: 2025, city: 'Virtual (YTD)', attendance: 566, members: 801,  estAtt: false, estMem: false, proj: false },
+  { year: 2026, city: 'Montreal', attendance: 445, members: 790,  estAtt: false, estMem: false, proj: true  },
+];
+
+const labels = data.map(d => d.year);
+const attEst = data.map(d => d.estAtt || d.proj);
+const memEst = data.map(d => d.estMem || d.proj);
+
+new Chart(document.getElementById('chart-history'), {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      {
+        label: 'Conference attendance',
+        data: data.map(d => d.attendance),
+        borderColor: '#0F6E56',
+        backgroundColor: 'rgba(15,110,86,0.08)',
+        fill: false,
+        tension: 0.3,
+        borderWidth: 2,
+        pointRadius: 4,
+        pointBackgroundColor: data.map((d,i) => attEst[i] ? 'transparent' : '#0F6E56'),
+        pointBorderColor: data.map((d,i) => attEst[i] ? '#D85A30' : '#0F6E56'),
+        pointBorderWidth: data.map((d,i) => attEst[i] ? 2 : 0),
+        pointHoverRadius: 6,
+      },
+      {
+        label: 'Membership',
+        data: data.map(d => d.members),
+        borderColor: '#534AB7',
+        backgroundColor: 'rgba(83,74,183,0.06)',
+        fill: false,
+        tension: 0.3,
+        borderWidth: 2,
+        pointRadius: 4,
+        pointBackgroundColor: data.map((d,i) => memEst[i] ? 'transparent' : '#534AB7'),
+        pointBorderColor: data.map((d,i) => memEst[i] ? '#D85A30' : '#534AB7'),
+        pointBorderWidth: data.map((d,i) => memEst[i] ? 2 : 0),
+        pointHoverRadius: 6,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          title: ctx => {
+            const i = ctx[0].dataIndex;
+            const d = data[i];
+            return d.year + ' — ' + d.city;
+          },
+          label: ctx => {
+            const i = ctx.dataIndex;
+            const d = data[i];
+            if (ctx.datasetIndex === 0) {
+              const flag = d.proj ? ' (as of April 18, 2026)' : d.estAtt ? ' (estimated)' : '';
+              return ' Attendance: ' + ctx.parsed.y + flag;
+            } else {
+              const flag = d.proj ? ' (as of April 18, 2026)' : '';
+              return ' Members: ' + ctx.parsed.y + flag;
+            }
+          },
+          afterBody: ctx => {
+            const i = ctx[0].dataIndex;
+            const d = data[i];
+            if (d.attendance > 0 && d.members > 0) {
+              const pct = Math.round(d.attendance / d.members * 100);
+              return ['', ' Attendance rate: ' + pct + '% of members'];
+            }
+            return [];
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          font: { size: 10 },
+          color: '#9ca3af',
+          maxRotation: 45,
+          callback: (val, i) => {
+            const yr = data[i].year;
+            return yr % 5 === 0 || yr === 1972 || yr === 2026 ? yr : '';
+          }
+        },
+        grid: { display: false }
+      },
+      y: {
+        ticks: { font: { size: 11 }, color: '#9ca3af' },
+        grid: { color: 'rgba(128,128,128,0.1)' },
+        min: 0
+      }
+    }
+  }
+});
+</script>
