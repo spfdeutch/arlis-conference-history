@@ -37,13 +37,13 @@
     </div>
     <div class="metric amber">
       <p class="metric-label">Current membership</p>
-      <p class="metric-value">790</p>
-      <p class="metric-sub">as of today</p>
+      <p class="metric-value">815</p>
+      <p class="metric-sub">as of 5/19/2026</p>
     </div>
     <div class="metric">
       <p class="metric-label">2026 Montreal</p>
-      <p class="metric-value">445</p>
-      <p class="metric-sub">registered as of Apr 18</p>
+      <p class="metric-value">467</p>
+      <p class="metric-sub">final</p>
     </div>
   </div>
 
@@ -54,9 +54,9 @@
     <div class="leg"><div class="leg-circle" style="border-color:#D85A30;background:transparent"></div>Averaged from EB reports / projected</div>
   </div>
   <div style="position:relative;width:100%;height:380px">
-    <canvas id="chart-history" role="img" aria-label="Line chart showing ARLIS/NA conference attendance and membership from 1972 to 2026. Attendance figures for 1976–1978, 1981, 1999–2001, and 2004–2005 are averaged from Executive Board reports. 2020 was cancelled. 2021 and 2025 were virtual. 2026 figure is registration as of April 18."></canvas>
+    <canvas id="chart-history" role="img" aria-label="Line chart showing ARLIS/NA conference attendance and membership from 1972 to 2026. Attendance figures for 1976–1978, 1981, 1999–2001, and 2004–2005 are averaged from Executive Board reports. 2020 was cancelled. 2021 and 2025 were virtual."></canvas>
   </div>
-  <p class="chart-note">Open circles = averaged or projected figures · 1976–1978, 1981 &amp; 1999–2001, 2004–2005 attendance averaged from EB reports · 2020 cancelled · 2021 virtual · 2025 virtual, year-to-date · 2026 registration as of April 18, 2026</p>
+  <p class="chart-note">Open circles = averaged figures · 1976–1978, 1981 &amp; 1999–2001, 2004–2005 attendance averaged from EB reports · 2020 cancelled · 2021 virtual · 2025 virtual · 2026 Montreal final</p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -112,11 +112,11 @@ const data = [
   { year: 2019, city: 'Salt Lake City', attendance: 455, members: 824,  estAtt: false, estMem: false, proj: false },
   { year: 2020, city: 'Cancelled (St. Louis)', attendance: 0,   members: 934,  estAtt: false, estMem: false, proj: false },
   { year: 2021, city: 'Virtual', attendance: 493, members: 827,  estAtt: false, estMem: false, proj: false },
-  { year: 2022, city: 'Chicago', attendance: 396, members: 980,  estAtt: false, estMem: false, proj: false },
-  { year: 2023, city: 'Mexico City', attendance: 509, members: 872,  estAtt: false, estMem: false, proj: false },
-  { year: 2024, city: 'Pittsburgh', attendance: 481, members: 799,  estAtt: false, estMem: false, proj: false },
-  { year: 2025, city: 'Virtual (YTD)', attendance: 566, members: 801,  estAtt: true,  estMem: false, proj: false },
-  { year: 2026, city: 'Montreal', attendance: 445, members: 790,  estAtt: false, estMem: false, proj: true  },
+  { year: 2022, city: 'Chicago', attendance: 473, members: 980,  estAtt: false, estMem: false, proj: false },
+  { year: 2023, city: 'Mexico City', attendance: 518, members: 872,  estAtt: false, estMem: false, proj: false },
+  { year: 2024, city: 'Pittsburgh', attendance: 486, members: 799,  estAtt: false, estMem: false, proj: false },
+  { year: 2025, city: 'Virtual', attendance: 545, members: 801,  estAtt: false, estMem: false, proj: false },
+  { year: 2026, city: 'Montreal', attendance: 467, members: 815,  estAtt: false, estMem: false, proj: false },
 ];
 
 const labels = data.map(d => d.year);
@@ -175,10 +175,10 @@ new Chart(document.getElementById('chart-history'), {
             const i = ctx.dataIndex;
             const d = data[i];
             if (ctx.datasetIndex === 0) {
-              const flag = d.proj ? ' (as of April 18, 2026)' : d.estAtt && d.year === 2025 ? ' (year-to-date)' : d.estAtt ? ' (averaged from EB reports)' : '';
+              const flag = d.proj ? ' (final)' : d.estAtt ? ' (averaged from EB reports)' : '';
               return ' Attendance: ' + ctx.parsed.y + flag;
             } else {
-              const flag = d.proj ? ' (as of April 18, 2026)' : '';
+              const flag = d.proj ? ' (final)' : '';
               return ' Members: ' + ctx.parsed.y + flag;
             }
           },
